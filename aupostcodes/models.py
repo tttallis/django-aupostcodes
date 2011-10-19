@@ -6,7 +6,8 @@ class AUPostCode(models.Model):
     """
     A valid Australian Post Code
     """
-    postcode = models.CharField(db_index=True, max_length=4)
+    postcode = models.CharField(primary_key=True, max_length=4)
+    parcel_zone = models.CharField(max_length=3)
     
     class Meta:
         verbose_name = 'Australian Post Code'

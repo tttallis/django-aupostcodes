@@ -25,7 +25,8 @@ class Command(NoArgsCommand):
         reader.next() # skip headers
         for line in reader:
             postcode, locality, state = line[:3]
-            au_postcode, created = AUPostCode.objects.get_or_create(postcode=postcode)
+            parcel_zone = line[6].strip()
+            au_postcode, created = AUPostCode.objects.get_or_create(postcode=postcode, parcel_zone=parcel_zone)
             au_postal_area = AUPostalArea(postcode=au_postcode, locality=locality, state=state)
             au_postal_area.save()        
             n += 1
