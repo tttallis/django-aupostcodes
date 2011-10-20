@@ -8,11 +8,14 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
+        # Deleting field 'AUPostalArea.postcode'
+        db.delete_column('aupostcodes_aupostalarea', 'postcode_id')
+
         # Deleting field 'AUPostCode.id'
         db.delete_column('aupostcodes_aupostcode', 'id')
 
         # Adding field 'AUPostCode.parcel_zone'
-        db.add_column('aupostcodes_aupostcode', 'parcel_zone', self.gf('django.db.models.fields.CharField')(default='', max_length=3), keep_default=False)
+        db.add_column('aupostcodes_aupostcode', 'parcel_zone', self.gf('django.db.models.fields.CharField')(default='N1', max_length=3), keep_default=False)
 
         # Changing field 'AUPostCode.postcode'
         db.alter_column('aupostcodes_aupostcode', 'postcode', self.gf('django.db.models.fields.CharField')(max_length=4, primary_key=True))
@@ -32,6 +35,9 @@ class Migration(SchemaMigration):
         # Adding index on 'AUPostCode', fields ['postcode']
         db.create_index('aupostcodes_aupostcode', ['postcode'])
 
+        # Adding field 'AUPostalArea.postcode'
+        db.add_column('aupostcodes_aupostalarea', 'postcode', self.gf('django.db.models.fields.related.ForeignKey')(default=1, related_name='postal_areas', to=orm['aupostcodes.AUPostCode']), keep_default=False)
+
         # Adding field 'AUPostCode.id'
         db.add_column('aupostcodes_aupostcode', 'id', self.gf('django.db.models.fields.AutoField')(default=1, primary_key=True), keep_default=False)
 
@@ -47,7 +53,6 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'AUPostalArea'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'locality': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'postcode': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'postal_areas'", 'to': "orm['aupostcodes.AUPostCode']"}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '3'})
         },
         'aupostcodes.aupostcode': {
