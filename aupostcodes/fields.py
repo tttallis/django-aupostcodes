@@ -15,16 +15,19 @@ class AUPostCodeFormField(RegexField):
     def __init__(self, **kwargs):
         defaults = {
             'max_length': 4,
-            'min_length': 4
+            'min_length': 4,
         }
         defaults.update(kwargs)
         super(AUPostCodeFormField, self).__init__(r'^\d{4}$', **defaults)
         
     def clean(self, value):
         value = super(AUPostCodeFormField, self).clean(value)
-        try:
-            postcode = AUPostCode.objects.get(postcode=value)
-        except AUPostCode.DoesNotExist:
+        if value:
+            try:
+                postcode = AUPostCode.objects.get(postcode=value)
+            except AUPostCode.DoesNotExist:
+                raise forms.ValidationError('Enter a valid post code')
+        elif self.required:
             raise forms.ValidationError('Enter a valid post code')
         return value
 
