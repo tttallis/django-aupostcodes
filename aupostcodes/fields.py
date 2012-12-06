@@ -41,4 +41,6 @@ class AUPostCodeField(models.CharField):
         return super(AUPostCodeField, self).__init__(**defaults)
         
     def formfield(self, **kwargs):
-        return AUPostCodeFormField(**kwargs)
+        defaults = {'max_length': self.max_length, 'form_class': AUPostCodeFormField}
+        defaults.update(kwargs)
+        return super(AUPostCodeField, self).formfield(**defaults)
