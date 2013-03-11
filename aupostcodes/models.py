@@ -1,4 +1,4 @@
-from django.contrib.localflavor.au.au_states import STATE_CHOICES
+from django_localflavor_au.au_states import STATE_CHOICES
 from django.db import models
 
 
