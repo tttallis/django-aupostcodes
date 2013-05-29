@@ -26,8 +26,8 @@ class Command(NoArgsCommand):
         for line in reader:
             postcode, tourism, dnsw, regional = line[4:8]
             tourism_region, created = TourismRegion.objects.get_or_create(name=tourism)
-            dnsw, created = DNSW.objects.get_or_create(name=tourism)
-            dnsw_regional, created = DNSWRegional.objects.get_or_create(name=tourism)
+            dnsw, created = DNSW.objects.get_or_create(name=dnsw)
+            dnsw_regional, created = DNSWRegional.objects.get_or_create(name=regional)
             try:
                 postcode = AUPostCode.objects.get(postcode=postcode)
                 postcode.tourism_region = tourism_region
