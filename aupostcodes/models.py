@@ -1,4 +1,7 @@
-from django_localflavor_au.au_states import STATE_CHOICES
+try:
+    from django_localflavor_au.au_states import STATE_CHOICES # Django >= 1.5
+except ImportError:
+    from django.contrib.localflavor.au.au_states import STATE_CHOICES
 from django.db import models
 
 
@@ -42,6 +45,9 @@ class TourismRegion(models.Model):
     
     def __unicode__(self):
         return self.name
+        
+    class Meta:
+        ordering = ('name',)
 
 class DNSW(models.Model):
     name = models.CharField(max_length=50)
@@ -49,9 +55,14 @@ class DNSW(models.Model):
     def __unicode__(self):
         return self.name
         
+    class Meta:
+        ordering = ('name',)
+
 class DNSWRegional(models.Model):
     name = models.CharField(max_length=50)
     
     def __unicode__(self):
         return self.name
         
+    class Meta:
+        ordering = ('name',)
